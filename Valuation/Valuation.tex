@@ -13,11 +13,14 @@
 \usepackage[listings,breakable]{tcolorbox} % 彩色盒子宏包 代码宏包
 \usepackage{enumitem} % 枚举设置宏包
 \usepackage{tikz} % 画图宏包
+\usetikzlibrary{positioning} % tikz 相对位置 library
+\usetikzlibrary{calc} % tikz 计算 library
 \usepackage{booktabs} % 表格宏包
 \usepackage{dsfont} % 数字粗体宏包
 \usepackage{titlesec} % 字体大小设置宏包
 \usepackage{parallel} % 双栏排版宏包
 \usepackage{hyperref} % 交叉引用宏包 colorlinks启用彩色模式 参考文献引用为紫红色
+\usepackage{changepage} % 调整 tikz 图左右边距宏包
 \usepackage[hang,flushmargin]{footmisc}
 
 % 宏包设置
@@ -35,6 +38,9 @@
 \renewcommand\bibname{参考文献} % 中文 参考文献
 % 清华紫
 \definecolor{THU}{RGB}{111, 23, 135}
+\definecolor{水绿}{RGB}{140, 194, 105} % 理想买点颜色
+\definecolor{霁青}{RGB}{99, 187, 208} % 合理估值下限颜色
+\definecolor{玫瑰紫}{RGB}{186, 47, 123} % 三年后合理估值颜色
 % 交叉引用宏包设置
 \hypersetup{colorlinks=true,linkcolor=THU,citecolor=THU}
 % itemize 行距设置
@@ -105,18 +111,39 @@
 \pagenumbering{arabic} % 页码编号为阿拉伯数字
 
 \chapter{洋河股份}
-\begin{center}
-  \begin{tikzpicture} 
-    % 坐标轴
-    \draw[line width=2pt,->] (0,0) -- (15,0); 
-    \draw[line width=2pt,->] (0,0) -- (0,18); 
-    % 
-  \end{tikzpicture}
-\end{center}
+\noindent
+\begin{figure}[htbp]
+\begin{adjustwidth*}{-7em}{}
+\begin{tikzpicture}
+  % 各点坐标
+  \coordinate (lixiang) at (0,5.02);
+  \coordinate (dangqian) at (0,5.58);
+  \coordinate (helixia) at (0,5.97);
+  \coordinate (sannian) at (0,10.03);
+
+  % 坐标轴
+  \draw[line width=2pt,->] (0,0) -- (15,0);
+  \draw[line width=2pt,->] (0,0) -- (0,18);
+
+  \draw[水绿,line width=1pt,dashed] (lixiang) -- ($ (lixiang) + (15,0) $);
+  \node [left=0.1em of lixiang](lixiang_text){\color{水绿}{理想买点 139.35}};
+
+  \draw[line width=2pt,solid] (dangqian) -- ($ (dangqian) + (15,0) $);
+  \node [left=0.1em of dangqian](dangqian_text){当前股价 155.00};
+
+  \draw[霁青,line width=1pt,dashed] (helixia) -- ($ (helixia) + (15,0) $);
+  \node [left=0.1em of helixia](helixia_text){\color{霁青}{合理估值下限 165.89}};
+
+  \draw[玫瑰紫,line width=1pt,dashed] (sannian) -- ($ (sannian) + (15,0) $);
+  \node [left=0.1em of sannian](sannian_text){\color{玫瑰紫}{三年后合理估值 278.7}};
+\end{tikzpicture}
+\end{adjustwidth*}
+\end{figure}
 
 \newpage
 洋河股份目前总股本为 15.06988 亿，2022 年预计净利润 100 亿，三年后预计净利润 140
-亿。
+亿。三年后合理估值上限的 150\% 为 $140 \times 30 \times 150\% = 6300$ 亿，2022 年
+净利润的 50 倍为 5000 亿，一年内卖点取二者较低值即 5000 亿。
 
 \begin{table}[htbp]
   \caption{洋河股份市值和股价对应关系}
