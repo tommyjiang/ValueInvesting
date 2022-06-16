@@ -18,6 +18,9 @@
 \usepackage{titlesec} % 字体大小设置宏包
 \usepackage{parallel} % 双栏排版宏包
 \usepackage{hyperref} % 交叉引用宏包 colorlinks启用彩色模式 参考文献引用为紫红色
+\usepackage{makecell} % 表格内换行宏包
+\usepackage[justification=centering]{caption} % 标题居中宏包
+\usepackage{endnotes} % 尾注宏包
 \usepackage[hang,flushmargin]{footmisc}
 
 % 宏包设置
@@ -78,6 +81,20 @@
     \ParallelLText{#1}\ParallelRText{#2}}
   {\end{Parallel}}
 
+% 尾注格式
+\renewcommand{\notesname}{本章备注}
+
+\renewcommand\makeenmark{\textsuperscript{[\theenmark]}}
+
+\usepackage{etoolbox}
+%\patchcmd{\enoteformat}{1.8em}{1.8em}{}{}
+
+% in the endnotes, we change it without `\textsuperscript`, adding a space
+\patchcmd{\theendnotes}
+{\makeatletter}
+{\makeatletter\renewcommand\makeenmark{\makebox[\parindent][l]{[\theenmark]}}}
+{}{}
+
 \begin{document}
 \frontmatter
 \begin{titlepage}
@@ -85,11 +102,11 @@
 
 \vspace*{5cm}
 % Title
-{\huge \bfseries 安全边际}\\[0.4cm]
+{\huge \bfseries 伯克希尔·哈撒韦金融全史}\\[0.4cm]
 
 \vspace{12cm}
 
-{\large 塞斯·卡拉曼} \\[1cm]
+{\large 亚当·米德} \\[1cm]
 {\large \today}
 
 \end{center}
